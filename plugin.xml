@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?><plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    id="phonegap-plugin-barcodescanner"
+    version="4.0.1">
+
+    <name>BarcodeScanner</name>
+    <description>You can use the BarcodeScanner plugin to scan different types of barcodes (using the device's camera) and get the metadata encoded in them for processing within your application.</description>
+    <license>MIT</license>
+
+    <repo>https://github.com/wildabeast/BarcodeScanner</repo>
+    <issue>https://github.com/wildabeast/BarcodeScanner/issues</issue>
+
+    <engines>
+        <engine name="cordova" version=">=3.0.0" />
+    </engines>
+
+    <js-module src="www/barcodescanner.js" name="BarcodeScanner">
+        <clobbers target="cordova.plugins.barcodeScanner" />
+    </js-module>
+
+    <!-- ios -->
+    <platform name="ios">
+        <!-- Cordova >= 2.8 -->
+        <config-file target="config.xml" parent="/*">
+            <feature name="BarcodeScanner">
+                <param name="ios-package" value="CDVBarcodeScanner" />
+            </feature>
+        </config-file>
+
+        <resource-file src="src/ios/scannerOverlay.xib" />
+        <resource-file src="src/ios/CDVBarcodeScanner.bundle" />
+
+        <header-file src="src/ios/zxing-all-in-one.h" />
+
+        <source-file src="src/ios/CDVBarcodeScanner.mm" compiler-flags="-fno-objc-arc" />
+        <source-file src="src/ios/zxing-all-in-one.cpp" />
+
+        <framework src="libiconv.dylib" />
+        <framework src="AVFoundation.framework" />
+        <framework src="AssetsLibrary.framework" />
+        <framework src="CoreVideo.framework" />
+        <framework src="QuartzCore.framework" />
+        <framework src="CoreGraphics.framework" />
+        <framework src="CoreImage.framework" />
+        <framework src="AudioToolbox.framework" />
+    </platform>
+
+    <!-- android -->
+    <platform name="android">
+
+        <source-file src="src/android/com/phonegap/plugins/barcodescanner/BarcodeScanner.java" target-dir="src/com/phonegap/plugins/barcodescanner" />
+        <!--
+        <source-file src="R.java" target-dir="src/com/google/zxing/client/android" />
+        -->
+
+        <!--
+        <config-file target="res/xml/plugins.xml" parent="/plugins">
+            <plugin name="BarcodeScanner" value="com.phonegap.plugins.barcodescanner.BarcodeScanner"/>
+        </config-file>
+        -->
+
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="BarcodeScanner">
+                <param name="android-package" value="com.phonegap.plugins.barcodescanner.BarcodeScanner" />
+            </feature>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <activity
+                android:name="com.example.qr_codescan.MipcaActivityCapture"
+                android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+                >
+            </activity>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+            <uses-permission android:name="android.permission.CAMERA" />
+            <uses-permission android:name="android.permission.FLASHLIGHT" />
+            <uses-permission android:name="android.permission.VIBRATE" />
+			<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+			<uses-feature android:name="android.hardware.camera.autofocus" />
+			<!-- Not required to allow users to work around this -->
+            <uses-feature android:name="android.hardware.camera" android:required="false" />
+			
+        </config-file>
+
+        <source-file src="src/android/qr_codescan.jar" target-dir="libs"/>
+		<source-file src="src/android/core.jar" target-dir="libs"/>
+        <!--
+            LibraryProject/res/*.*
+            search: (src/android/LibraryProject/(.+?)/[^/]+)$
+            replace: <source-file src="$1" target-dir="$2"/>
+        -->
+		<source-file src="src/android/LibraryProject/res/drawable/mm_title_back_btn.xml" target-dir="res/drawable"/>
+		<source-file src="src/android/LibraryProject/res/drawable/mm_title_right_btn.xml" target-dir="res/drawable"/>
+		<source-file src="src/android/LibraryProject/res/drawable-hdpi/ic_launcher.png" target-dir="res/drawable"/>
+		<source-file src="src/android/LibraryProject/res/drawable-hdpi/mm_title_back_focused.9.png" target-dir="res/drawable"/>
+		<source-file src="src/android/LibraryProject/res/drawable-hdpi/mm_title_back_normal.9.png" target-dir="res/drawable"/>
+		<source-file src="src/android/LibraryProject/res/drawable-hdpi/mm_title_back_pressed.9.png" target-dir="res/drawable"/>
+		<source-file src="src/android/LibraryProject/res/drawable-hdpi/mm_title_btn_focused.9.png" target-dir="res/drawable"/>
+		<source-file src="src/android/LibraryProject/res/drawable-hdpi/mm_title_btn_menu_normal.png" target-dir="res/drawable"/>
+		<source-file src="src/android/LibraryProject/res/drawable-hdpi/mm_title_btn_normal.9.png" target-dir="res/drawable"/>
+		<source-file src="src/android/LibraryProject/res/drawable-hdpi/mm_title_btn_pressed.9.png" target-dir="res/drawable"/>
+		<source-file src="src/android/LibraryProject/res/drawable-hdpi/mmtitle_bg_alpha.9.png" target-dir="res/drawable"/>
+		<source-file src="src/android/LibraryProject/res/drawable-hdpi/qrcode_scan_line.png" target-dir="res/drawable"/>
+		
+		
+      
+        <source-file src="src/android/LibraryProject/res/layout/activity_capture.xml" target-dir="res/layout"/>
+        <source-file src="src/android/LibraryProject/res/layout/activity_title.xml" target-dir="res/layout"/>
+        
+        <source-file src="src/android/LibraryProject/res/raw/beep.ogg" target-dir="res/raw"/>
+		
+        <source-file src="src/android/LibraryProject/res/values/color.xml" target-dir="res/values"/>
+        <source-file src="src/android/LibraryProject/res/values/ids.xml" target-dir="res/values"/>
+		<source-file src="src/android/LibraryProject/res/values/styles.xml" target-dir="res/values"/>
+        
+        <!-- plugman cannot merge - prepare manual merge -->
+        <config-file target="res/values/strings.xml" parent="/resources">
+            <string name="scan_text">将二维码放入框内, 即可自动扫描</string>
+        </config-file>
+    </platform>
+
+    <platform name="windows8">
+        <js-module src="src/windows/BarcodeScannerProxy.js" name="BarcodeScannerProxy">
+            <merges target="" />
+        </js-module>
+
+        <config-file target="package.appxmanifest" parent="/Package/Capabilities">
+            <DeviceCapability Name="webcam" />
+        </config-file>
+
+        <framework src="src/windows/lib/WinRTBarcodeReader.csproj" custom="true" type="projectReference"/>
+    </platform>
+
+    <platform name="windows">
+        <js-module src="src/windows/BarcodeScannerProxy.js" name="BarcodeScannerProxy">
+            <merges target="" />
+        </js-module>
+
+        <config-file target="package.appxmanifest" parent="/Package/Capabilities">
+            <DeviceCapability Name="webcam" />
+        </config-file>
+
+        <framework src="src/windows/lib/WinRTBarcodeReader.csproj" custom="true" type="projectReference"/>
+    </platform>
+
+    <!-- Windows Phone 8 -->
+    <platform name="wp8">
+        <config-file target="config.xml" parent="/*">
+            <feature name="BarcodeScanner">
+                <param name="wp-package" value="BarcodeScanner"/>
+            </feature>
+        </config-file>
+
+        <config-file target="Properties/WMAppManifest.xml" parent="/Deployment/App/Capabilities">
+            <Capability Name="ID_CAP_ISV_CAMERA" />
+        </config-file>
+
+        <framework src="src/wp8/lib/zxing.wp8.0.dll" custom="true" />
+
+        <asset src="src/wp8/assets/cancel.png" target="Images/appbar.cancel.png" />
+
+        <source-file src="src/wp8/BarcodeScanner.cs" />
+        <source-file src="src/wp8/BarcodeScannerTask.cs" />
+        <source-file src="src/wp8/BarcodeScannerUI.xaml" />
+        <source-file src="src/wp8/BarcodeScannerUI.xaml.cs" />
+    </platform>
+
+    <!-- browser -->
+    <platform name="browser">
+        <config-file target="config.xml" parent="/*">
+            <feature name="BarcodeScanner">
+                <param name="browser-package" value="BarcodeScanner" />
+            </feature>
+        </config-file>
+
+        <js-module src="src/browser/BarcodeScannerProxy.js" name="BarcodeScannerProxy">
+            <runs />
+        </js-module>
+    </platform>
+    
+    <!-- BlackBerry 10 -->
+    <platform name="blackberry10">
+        <source-file src="src/blackberry10/index.js" target-dir="BarcodeScanner" />
+        <lib-file src="src/blackberry10/native/device/libBarcodeScanner.so" arch="device"/>
+        <lib-file src="src/blackberry10/native/simulator/libBarcodeScanner.so" arch="simulator"/>
+        <config-file target="www/config.xml" parent="/widget">
+            <feature name="BarcodeScanner">
+		<param name="blackberry-package" value="phonegap-plugin-barcodescanner" />
+	    </feature>
+        </config-file>
+        <config-file target="www/config.xml" parent="/widget/rim:permissions">
+            <rim:permit>use_camera</rim:permit>
+        </config-file>
+        <dependency id="cordova-plugin-bb-app" />
+    </platform>
+</plugin>
